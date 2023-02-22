@@ -1,0 +1,22 @@
+aqua Main
+
+export main
+
+import "@fluencelabs/aqua-lib/builtin.aqua"
+import "@fluencelabs/registry/subnetwork.aqua"
+import Registry from "@fluencelabs/registry/registry-service.aqua"
+
+service Console("run-console"):
+    print(any: ⊤)
+
+
+-- "DSfTpMZRb49g6xuD57pGLfCeGc38XooKCeLPCqRXfJq6"
+func main():
+    -- IMPORTANT: remove '0x' and make it lower case
+    deal_id = "07b94f3570f86b541b2fc1ffe611589f6d7765b9"
+    on HOST_PEER_ID:
+        peer_id <- getInsecuredPeerId()
+        key_id <- Registry.get_key_id(deal_id, peer_id)
+        records <- resolveSubnetwork(deal_id)
+    Console.print(["key_id is", key_id])
+    Console.print(records!.length)
